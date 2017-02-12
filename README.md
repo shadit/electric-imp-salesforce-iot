@@ -8,7 +8,7 @@ When using [the IoT Cloud Agent](https://raw.githubusercontent.com/shadit/electr
 You can use the [event](https://raw.githubusercontent.com/shadit/electric-imp-salesforce-iot/master/Freezer_Event.json) and [context](https://raw.githubusercontent.com/shadit/electric-imp-salesforce-iot/master/Freezer_Context.json) data JSON files to configure IoT Cloud.
 
 ## References
-* [Build an IoT Integration with Electric Imp](https://trailhead.salesforce.com/projects/workshop-electric-imp) - Salesforce Trailhead module that is the basis for this project.
+* [Build an IoT Integration with Electric Imp](https://trailhead.salesforce.com/projects/workshop-electric-imp) - Salesforce Trailhead module that provides the context and background information for this project. Shows how to implement an integration between Electric Imp and Service Cloud.
 * [Salesforce Smart Refridgerator](https://github.com/electricimp/Salesforce/blob/master/examples/SmartRefrigerator/README.md) - Agent and Device code for both the Explorer Kit and Environmental Sensor Tail. The IoT Cloud Agent was developed using these as a starting point.
   * Salesforce API integration and event handling code was removed (now handled by IoT Cloud)
   * IoT Cloud event sending code was added
