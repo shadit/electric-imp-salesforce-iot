@@ -12,3 +12,6 @@ You can use the [event](https://raw.githubusercontent.com/shadit/electric-imp-sa
 * [Salesforce Smart Refridgerator](https://github.com/electricimp/Salesforce/blob/master/examples/SmartRefrigerator/README.md) - Agent and Device code for both the Explorer Kit and Environmental Sensor Tail. The [IoT Cloud Agent](https://raw.githubusercontent.com/shadit/electric-imp-salesforce-iot/master/SmartFreezer_IoT.agent.nut) was developed using their code as a starting point.
   * Salesforce API integration and event handling code was removed (now handled by IoT Cloud)
   * IoT Cloud event sending code was added
+
+## IoT Cloud Door Alert Orchestration
+![Freezer Door Orchestration](https://drive.google.com/uc?id=0B7gGv9loYAQ3blBoV1RBXzZ5Z2s)
