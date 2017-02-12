@@ -1,7 +1,7 @@
 # electric-imp-salesforce-iot
 Build a Salesforce IoT Cloud Integration with Electric Imp
 
-Implements an Electric Imp Agent for the Environmental Sensor Tail that sends events to Salesforce IoT Cloud.
+Implements an [Electric Imp Agent](https://raw.githubusercontent.com/shadit/electric-imp-salesforce-iot/master/SmartRefrigerator_IoT.agent.nut) for the Environmental Sensor Tail that sends events to Salesforce IoT Cloud.
 
 In order to use the Agent, update the INPUT_CONN_URL and BEARER_KEY with values from your Input Connection.
 
