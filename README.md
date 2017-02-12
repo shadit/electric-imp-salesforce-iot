@@ -14,7 +14,7 @@ You can use the [event](https://raw.githubusercontent.com/shadit/electric-imp-sa
   * IoT Cloud event sending code was added
 
 ## Freezer Orchestration State Machine
-* Opens / updates Cases based on leaving the door open too long, or closing the door
-* Opens training Cases based on too many door open events over time
+* Creates / updates Cases based on leaving the door open too long, or closing the door
+* Creates training Cases based on too many door open events over time
 
 ![Freezer Door Orchestration](https://drive.google.com/uc?id=0B7gGv9loYAQ3blBoV1RBXzZ5Z2s)
