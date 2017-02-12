@@ -9,4 +9,6 @@ You can use the [event](https://raw.githubusercontent.com/shadit/electric-imp-sa
 
 ## References
 * [Build an IoT Integration with Electric Imp](https://trailhead.salesforce.com/projects/workshop-electric-imp) - Salesforce Trailhead module that is the basis for this project.
-* [Salesforce Smart Refridgerator](https://github.com/electricimp/Salesforce/blob/master/examples/SmartRefrigerator/README.md) - Agent and Device code for both the Explorer Kit and Environmental Sensor Tail.
+* [Salesforce Smart Refridgerator](https://github.com/electricimp/Salesforce/blob/master/examples/SmartRefrigerator/README.md) - Agent and Device code for both the Explorer Kit and Environmental Sensor Tail. The IoT Cloud Agent was developed using these as a starting point.
+  * Salesforce API integration and event handling code was removed (now handled by IoT Cloud)
+  * IoT Cloud event sending code was added
