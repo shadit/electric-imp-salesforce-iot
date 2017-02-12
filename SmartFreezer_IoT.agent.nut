@@ -5,23 +5,20 @@
 #require "promise.class.nut:3.0.0"
 
 /***************************************************************************************
- * SmartFrigDataManager Class:
+ * SmartFreezerDataManager Class:
  *      Handle incoming device readings
  *      Set sensor threshold values
- *      Set callback handlers for events and streaming data
- *      Check for temperature, humidity, and door events
- *      Average temperature and humidity readings
+ *      Send events to Salesforce IoT Cloud
  **************************************************************************************/
-class SmartFrigDataManager {
+class SmartFreezerDataManager {
+    // IoT Cloud settings - TODO: update with values from your configuration
+    static INPUT_CONN_URL = "UPDATE ME";
+    static BEARER_KEY = "UPDATE ME";
 
     // Default settings
     static DEFAULT_LX_THRESHOLD = 50; // LX level indicating door open
     static DEFAULT_TEMP_THRESHOLD = 11;
     static DEFAULT_HUMID_THRESHOLD = 70;
-
-    // IoT Cloud settings - TODO: update with values from your configuration
-    static INPUT_CONN_URL = "";
-    static BEARER_KEY = "";
 
     // Class variables
     _bull = null;
@@ -158,7 +155,7 @@ class SmartFrigDataManager {
         // send ack to device (device erases this set of readings when ack received)
         reply("OK");
 
-        // Shad - send event to IoT Cloud
+        // Send event to IoT Cloud
         local tempAvgFahrenheit = (tempAvg * 1.8) + 32;
         local iotEvent = {"device_id" : imp.configparams.deviceid, "tempC" : tempAvg, "tempF" : tempAvgFahrenheit, "humidity" : humidAvg, "door" : doorOpen};
         _eventToIoT(iotEvent);
@@ -187,7 +184,7 @@ class Application {
     constructor() {
         _deviceID = imp.configparams.deviceid.tostring();
         local _bull = Bullwinkle();
-        _dm = SmartFrigDataManager(_bull);
+        _dm = SmartFreezerDataManager(_bull);
     }
 }
 
