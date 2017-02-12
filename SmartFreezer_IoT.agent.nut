@@ -11,7 +11,7 @@
 class SmartFreezerDataManager {
     // IoT Cloud settings - TODO: update with values from your configuration
     static INPUT_CONN_URL = "UPDATE ME";
-    static BEARER_KEY = "UPDATE ME";
+    static BEARER_TOKEN = "UPDATE ME";
 
     // Default settings
     static DEFAULT_LX_THRESHOLD = 50; // LX level indicating door open
@@ -90,19 +90,15 @@ class SmartFreezerDataManager {
     function _eventToIoT(iotEvent) {
         // Build the request
         local headers = { "Content-Type": "application/json",
-                          "Authorization": "Bearer " + BEARER_KEY};
+                          "Authorization": "Bearer " + BEARER_TOKEN};
 
         local iotBody = http.jsonencode(iotEvent);
         server.log("iotBody=" + iotBody);
 
         http.post(INPUT_CONN_URL, headers, iotBody).sendasync(function(resp) {
-            local respData = http.jsondecode(resp.body);
-            local err = null;
-
-            // If there was an error, set the error code
             if (resp.statuscode != 200) {
-                err = data.message;
-                server.log("err=" + err);
+                server.log("ERROR! statuscode=" + resp.statuscode);
+                server.log("Ensure INPUT_CONN_URL and BEARER_TOKEN are configured correctly.");
             }
         });
     }
