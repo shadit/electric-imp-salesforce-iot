@@ -1,6 +1,4 @@
-#require "Salesforce.class.nut:1.1.0"
 #require "Rocky.class.nut:1.2.3"
-
 #require "bullwinkle.class.nut:2.3.0"
 #require "promise.class.nut:3.0.0"
 
@@ -35,8 +33,8 @@ class SmartFreezerDataManager {
      * Parameters:
      *      bullwinkle : instance - of Bullwinkle class
      **************************************************************************************/
-    constructor(bullwinkle) {
-        _bull = bullwinkle;
+    constructor() {
+        _bull = Bullwinkle();
         setThresholds(DEFAULT_TEMP_THRESHOLD, DEFAULT_HUMID_THRESHOLD, DEFAULT_LX_THRESHOLD);
         openListeners();
     }
@@ -152,13 +150,12 @@ class SmartFreezerDataManager {
             humidAvg = humidAvg/numReadings;
         }
 
-        // send ack to device (device erases this set of readings when ack received)
-        reply("OK");
-
         // Send event to IoT Cloud
         local tempAvgFahrenheit = (tempAvg * 1.8) + 32;
-        local iotEvent = {"device_id" : imp.configparams.deviceid, "tempC" : tempAvg, "tempF" : tempAvgFahrenheit, "humidity" : humidAvg, "door" : doorOpen};
-        _eventToIoT(iotEvent);
+        _eventToIoT({"device_id" : imp.configparams.deviceid, "tempC" : tempAvg, "tempF" : tempAvgFahrenheit, "humidity" : humidAvg, "door" : doorOpen});
+
+        // send ack to device (device erases this set of readings when ack received)
+        reply("OK");
     }
 
     /***************************************************************************************
@@ -175,19 +172,5 @@ class SmartFreezerDataManager {
     }
 }
 
-// APPLICATION CLASS TO SEND DATA/ALERTS TO IOT CLOUD
-// ----------------------------------------------------------
-class Application {
-    _dm = null;
-    _deviceID = null;
-
-    constructor() {
-        _deviceID = imp.configparams.deviceid.tostring();
-        local _bull = Bullwinkle();
-        _dm = SmartFreezerDataManager(_bull);
-    }
-}
-
 // RUNTIME
-// ---------------------------------------------------------------------------------
-Application();
+SmartFreezerDataManager();
