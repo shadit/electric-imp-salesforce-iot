@@ -13,5 +13,5 @@ You can use the [event](https://raw.githubusercontent.com/shadit/electric-imp-sa
   * Salesforce API integration and event handling code was removed (now handled by IoT Cloud)
   * IoT Cloud event sending code was added
 
-## IoT Cloud Door Alert Orchestration
+## IoT Cloud Freezer Orchestration
 ![Freezer Door Orchestration](https://drive.google.com/uc?id=0B7gGv9loYAQ3blBoV1RBXzZ5Z2s)
