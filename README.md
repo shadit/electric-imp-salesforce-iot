@@ -3,7 +3,7 @@ Build a Salesforce IoT Cloud Integration with Electric Imp
 
 Implements an [Electric Imp Agent](https://raw.githubusercontent.com/shadit/electric-imp-salesforce-iot/master/SmartFreezer_IoT.agent.nut) for the Environmental Sensor Tail that sends events to Salesforce IoT Cloud.
 
-In order to use the Agent, update the INPUT_CONN_URL and BEARER_KEY with values from your Input Connection.
+In order to use the Agent, update the INPUT_CONN_URL and BEARER_TOKEN with values from your Input Connection.
 
 You can use the [event](https://raw.githubusercontent.com/shadit/electric-imp-salesforce-iot/master/Freezer_Event.json) and [context](https://raw.githubusercontent.com/shadit/electric-imp-salesforce-iot/master/Freezer_Context.json) data JSON files to automatically configure IoT Cloud.
 
