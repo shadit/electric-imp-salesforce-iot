@@ -85,7 +85,7 @@ class SmartFreezerDataManager {
      * _eventToIoT
      * Returns: null
      * Parameters:
-     *      iotEvent : table - message received from bullwinkle listener
+     *      iotEvent : table - message received from _readingsHandler
      **************************************************************************************/
     function _eventToIoT(iotEvent) {
         // Build the request
@@ -148,7 +148,11 @@ class SmartFreezerDataManager {
 
         // Send event to IoT Cloud
         local tempAvgFahrenheit = (tempAvg * 1.8) + 32;
-        _eventToIoT({"device_id" : imp.configparams.deviceid, "tempC" : tempAvg, "tempF" : tempAvgFahrenheit, "humidity" : humidAvg, "door" : doorOpen});
+        _eventToIoT({"device_id" : imp.configparams.deviceid,
+                     "tempC" : tempAvg,
+                     "tempF" : tempAvgFahrenheit,
+                     "humidity" : humidAvg,
+                     "door" : doorOpen});
 
         // send ack to device (device erases this set of readings when ack received)
         reply("OK");
