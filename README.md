@@ -17,4 +17,4 @@ You can use the [event](https://raw.githubusercontent.com/shadit/electric-imp-sa
 * Creates / updates Cases based on leaving the door open too long, or closing the door
 * Creates training Cases based on too many door open events over time
 
-![Freezer Door Orchestration](https://drive.google.com/uc?id=0B7gGv9loYAQ3blBoV1RBXzZ5Z2s)
+![Freezer Door Orchestration](https://drive.google.com/uc?id=0B7gGv9loYAQ3eFNRV0NNUTBBOVk)
