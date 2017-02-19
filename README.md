@@ -13,8 +13,8 @@ You can use the [event](https://raw.githubusercontent.com/shadit/electric-imp-sa
   * Salesforce API integration and event handling code was removed (now handled by IoT Cloud)
   * IoT Cloud event sending code was added
 
-## Freezer Orchestration State Machine
+## Freezer Monitoring State Machine
 * Creates / updates Cases based on leaving the door open too long, or closing the door
 * Creates training Cases based on too many door open events over time
 
-![Freezer Door Orchestration](https://drive.google.com/uc?id=0B7gGv9loYAQ3eFNRV0NNUTBBOVk)
+![Freezer Monitoring State Machine](https://drive.google.com/uc?id=0B7gGv9loYAQ3eFNRV0NNUTBBOVk)
