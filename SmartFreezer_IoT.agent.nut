@@ -10,8 +10,8 @@
  **************************************************************************************/
 class SmartFreezerDataManager {
     // IoT Cloud settings - TODO: update with values from your configuration
-    static INPUT_CONN_URL = "https://ingestion-hqzst7rvtarl.us3.sfdcnow.com/streams/freezer001/freezer_event_dat001/event";
-    static BEARER_TOKEN = "GdZFsYr9pDYoqdETysIsDsXuCHNI4T5jO3aqZqHnj7pHniR5lqXkhN9QrMKSGGwAjmim83dwkqOgsQ8R5sPFD6";
+    static INPUT_CONN_URL = "UPDATE ME";
+    static BEARER_TOKEN = "UPDATE ME";
 
     // LX level indicating door open
     static DEFAULT_LX_THRESHOLD = 50;
