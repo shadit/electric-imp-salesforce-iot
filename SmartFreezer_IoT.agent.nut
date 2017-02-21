@@ -10,22 +10,19 @@
  **************************************************************************************/
 class SmartFreezerDataManager {
     // IoT Cloud settings - TODO: update with values from your configuration
-    static INPUT_CONN_URL = "UPDATE ME";
-    static BEARER_TOKEN = "UPDATE ME";
+    static INPUT_CONN_URL = "https://ingestion-hqzst7rvtarl.us3.sfdcnow.com/streams/freezer001/freezer_event_dat001/event";
+    static BEARER_TOKEN = "GdZFsYr9pDYoqdETysIsDsXuCHNI4T5jO3aqZqHnj7pHniR5lqXkhN9QrMKSGGwAjmim83dwkqOgsQ8R5sPFD6";
 
-    // Default settings
-    static DEFAULT_LX_THRESHOLD = 50; // LX level indicating door open
-    static DEFAULT_TEMP_THRESHOLD = 11;
-    static DEFAULT_HUMID_THRESHOLD = 70;
+    // LX level indicating door open
+    static DEFAULT_LX_THRESHOLD = 50;
 
-    // Class variables
-    _bull = null;
-
-    // Threshold
-    _tempThreshold = null;
-    _humidThreshold = null;
+    // Threshold handling
     _lxThreshold = null;
     _thresholdsUpdated = null;
+    _prevDoorState = null;
+
+    // Instance of Bullwinkle class
+    _bull = null;
 
     /***************************************************************************************
      * Constructor
@@ -35,7 +32,7 @@ class SmartFreezerDataManager {
      **************************************************************************************/
     constructor() {
         _bull = Bullwinkle();
-        setThresholds(DEFAULT_TEMP_THRESHOLD, DEFAULT_HUMID_THRESHOLD, DEFAULT_LX_THRESHOLD);
+        setThresholds(DEFAULT_LX_THRESHOLD);
         openListeners();
     }
 
@@ -54,13 +51,9 @@ class SmartFreezerDataManager {
      * setThresholds
      * Returns: null
      * Parameters:
-     *      temp : integer - new tempertature threshold value
-     *      humid : integer - new humid threshold value
      *      lx : integer - new light level door  value
      **************************************************************************************/
-    function setThresholds(temp, humid, lx) {
-        _tempThreshold = temp;
-        _humidThreshold = humid;
+    function setThresholds(lx) {
         _lxThreshold = lx;
         _thresholdsUpdated = true;
     }
@@ -85,7 +78,7 @@ class SmartFreezerDataManager {
      * _eventToIoT
      * Returns: null
      * Parameters:
-     *      iotEvent : table - message received from _readingsHandler
+     *      iotEvent : table - message received from bullwinkle listener
      **************************************************************************************/
     function _eventToIoT(iotEvent) {
         // Build the request
@@ -93,7 +86,7 @@ class SmartFreezerDataManager {
                           "Authorization": "Bearer " + BEARER_TOKEN};
 
         local iotBody = http.jsonencode(iotEvent);
-        server.log("iotBody=" + iotBody);
+        server.log("Sending event to IoT Cloud. iotBody=" + iotBody);
 
         http.post(INPUT_CONN_URL, headers, iotBody).sendasync(function(resp) {
             if (resp.statuscode != 200) {
@@ -121,10 +114,8 @@ class SmartFreezerDataManager {
 
         // set up variables for door event
         local doorOpen = null;
-        local ts = null;
 
-        // process readings
-        // reading table keys : "brightness", "humidity", "temperature", "ts"
+        // reading table keys : "brightness", "humidity", "temperature"
         foreach(reading in readings) {
             // calculate temperature and humidity totals
             if ("temperature" in reading && "humidity" in reading) {
@@ -133,26 +124,29 @@ class SmartFreezerDataManager {
                 humidAvg += reading.humidity;
             }
 
-            // get time stamp of reading
-            ts = reading.ts;
-
             // determine door status
-            if ("brightness" in reading) doorOpen = _checkDoorEvent(ts, reading.brightness);
+            if ("brightness" in reading) doorOpen = _checkDoorEvent(reading.brightness);
         }
 
-        if (numReadings != 0) {
+        if (numReadings != 0 && doorOpen != _prevDoorState) {
             // average the temperature and humidity readings
             tempAvg = tempAvg/numReadings;
             humidAvg = humidAvg/numReadings;
-        }
 
-        // Send event to IoT Cloud
-        local tempAvgFahrenheit = (tempAvg * 1.8) + 32;
-        _eventToIoT({"device_id" : imp.configparams.deviceid,
-                     "tempC" : tempAvg,
-                     "tempF" : tempAvgFahrenheit,
-                     "humidity" : humidAvg,
-                     "door" : doorOpen});
+            // Record the door state
+            _prevDoorState = doorOpen;
+
+            // Send event to IoT Cloud
+            local tempAvgFahrenheit = (tempAvg * 1.8) + 32;
+            _eventToIoT({"device_id" : imp.configparams.deviceid,
+                         "tempC"     : tempAvg,
+                         "tempF"     : tempAvgFahrenheit,
+                         "humidity"  : humidAvg,
+                         "door"      : doorOpen});
+        }
+        else if (doorOpen == _prevDoorState) {
+            server.log("Door state unchanged. Not sending IoT event. doorOpen=" + doorOpen);
+        }
 
         // send ack to device (device erases this set of readings when ack received)
         reply("OK");
@@ -160,12 +154,11 @@ class SmartFreezerDataManager {
 
     /***************************************************************************************
      * _checkDoorEvent
-     * Returns: sting - door status
+     * Returns: string - door status
      * Parameters:
      *      lxLevel : float - a light reading
-     *      readingTS : integer - the timestamp of the reading
      **************************************************************************************/
-    function _checkDoorEvent(readingTS, lxLevel = null) {
+    function _checkDoorEvent(lxLevel = null) {
         // Boolean if door open event occurred
         local doorOpen = (lxLevel == null || lxLevel > _lxThreshold);
         return (doorOpen) ? "open" : "closed";
