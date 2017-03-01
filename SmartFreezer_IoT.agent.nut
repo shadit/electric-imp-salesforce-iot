@@ -78,7 +78,7 @@ class SmartFreezerDataManager {
      * _eventToIoT
      * Returns: null
      * Parameters:
-     *      iotEvent : table - message received from bullwinkle listener
+     *      iotEvent : table - message received from _readingsHandler
      **************************************************************************************/
     function _eventToIoT(iotEvent) {
         // Build the request
